@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/rv_play"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#091227"
+    android:gravity="center"
+    android:layout_margin="@dimen/_10sdp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    
+    
+    <ImageView
+        android:id="@+id/image_music"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:src="@drawable/imagemusic"
+        android:scaleType="centerCrop"
+        />
+    
+    <TextView
+        android:gravity="center"
+
+        android:id="@+id/music_name"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="wrap_content"
+        android:text="In the end"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_20sdp"
+        android:layout_margin="@dimen/_15sdp"
+        />
+
+    <TextView
+        android:id="@+id/artist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Linkin Park"
+        android:textColor="#939393"
+        android:textSize="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        />
+
+
+
+</LinearLayout>
