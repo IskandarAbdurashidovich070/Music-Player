@@ -97,7 +97,6 @@
             android:progressBackgroundTint="@color/white"
             android:layout_width="@dimen/_315sdp"
             android:layout_height="wrap_content"
-            android:translationX="-9dp"
             />
 
         <LinearLayout
@@ -154,8 +153,6 @@
                     android:src="@drawable/ic_next"
                     />
             </LinearLayout>
-
-
 
         </LinearLayout>
 

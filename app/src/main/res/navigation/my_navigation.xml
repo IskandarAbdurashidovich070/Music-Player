@@ -15,5 +15,10 @@
         android:name="com.example.myapplication.AnimationFragment"
         android:label="fragment_animation"
         tools:layout="@layout/fragment_animation" />
+    <fragment
+        android:id="@+id/playingFragment"
+        android:name="com.example.myapplication.PlayingFragment"
+        android:label="fragment_playing"
+        tools:layout="@layout/fragment_playing" />
 
 </navigation>

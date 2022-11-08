@@ -9,13 +9,11 @@ import com.example.myapplication.databinding.RvItemBinding
 import java.net.URI
 
 class MyRvAdapter(var list: List<Music>, var clic: Clic) : RecyclerView.Adapter<MyRvAdapter.Vh>() {
-
+    
     inner class Vh(var rvItemBinding: RvItemBinding):RecyclerView.ViewHolder(rvItemBinding.root){
         fun onBind(music: Music, position: Int ){
 
-            rvItemBinding.rvPlay.setOnClickListener {
-                clic.OnClick(music)
-            }
+
 
             rvItemBinding.artistName.text = music.artist
             rvItemBinding.musicName.text = music.name
@@ -31,8 +29,10 @@ class MyRvAdapter(var list: List<Music>, var clic: Clic) : RecyclerView.Adapter<
                     Data.media = mediaPlayer
                     mediaPlayer.start()
                 }
+                Data.path = music.music
                 Data.name = music.name
                 Data.position = position
+                clic.OnClick(music)
             }
         }
 

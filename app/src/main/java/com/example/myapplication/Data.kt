@@ -8,7 +8,7 @@ object Data {
     var stop = 0
     var media: MediaPlayer? = null
     var position = 0
-
+    var path = ""
     var name = ""
 
 }

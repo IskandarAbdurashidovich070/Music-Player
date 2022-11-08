@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.example.myapplication.databinding.FragmentHomeBinding
@@ -31,8 +32,9 @@ class Home_Fragment : Fragment(), Clic {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
 
         list = ArrayList()
         listShuffule = ArrayList()
@@ -40,6 +42,7 @@ class Home_Fragment : Fragment(), Clic {
 
 
         myRvAdapter2 = MyRvAdapter(listShuffule, this)
+
 
 
 
@@ -87,36 +90,45 @@ class Home_Fragment : Fragment(), Clic {
 
 
         if (Data.media != null) {
+            Data.media!!.seekTo(0)
             binding.seekBar.max = Data.media!!.duration
+            Data.media!!.isLooping = true
         }
 
 
-        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    Data.media!!.seekTo(p1)
+       binding.seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener{
+           override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+               if (p2){
+                   Data.media!!.seekTo(p1)
+                   binding.seekBar.progress = p1
+               }
+           }
 
-            }
+           override fun onStartTrackingTouch(p0: SeekBar?) {
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {
-            }
+           }
 
-            override fun onStopTrackingTouch(p0: SeekBar?) {
-            }
-        })
+           override fun onStopTrackingTouch(p0: SeekBar?) {
+
+           }
+
+       })
 
 
 
         binding.next.setOnClickListener {
-            if (Data.position>=list.size-1){
+            if (Data.position >= list.size - 1) {
                 Data.position = 0
                 Data.media?.stop()
-                val mediaPlayer = MediaPlayer.create(binding.root.context, Uri.parse(list[Data.position].music))
+                val mediaPlayer =
+                    MediaPlayer.create(binding.root.context, Uri.parse(list[Data.position].music))
                 Data.media = mediaPlayer
                 mediaPlayer.start()
-            }else{
+            } else {
                 Data.position = ++Data.position
                 Data.media?.stop()
-                val mediaPlayer = MediaPlayer.create(binding.root.context, Uri.parse(list[Data.position].music))
+                val mediaPlayer =
+                    MediaPlayer.create(binding.root.context, Uri.parse(list[Data.position].music))
                 Data.media = mediaPlayer
                 mediaPlayer.start()
             }
@@ -124,16 +136,17 @@ class Home_Fragment : Fragment(), Clic {
         }
 
         binding.skip.setOnClickListener {
-            if (Data.position > 0){
+            if (Data.position > 0) {
                 Data.position = --Data.position
                 Data.media?.stop()
-                val mediaPlayer = MediaPlayer.create(binding.root.context, Uri.parse(list[Data.position].music))
+                val mediaPlayer =
+                    MediaPlayer.create(binding.root.context, Uri.parse(list[Data.position].music))
                 Data.media = mediaPlayer
                 mediaPlayer.start()
             }
         }
 
-        val music = Music()
+        seekBarChanged()
 
 
         return binding.root
@@ -181,19 +194,24 @@ class Home_Fragment : Fragment(), Clic {
                 getSongs()
             }
         }
-        seekBarChanged()
     }
 
 
-    fun seekBarChanged(){
-        handler= Handler(Looper.getMainLooper())
-        handler.postDelayed(runnable, 1000)
+    fun seekBarChanged() {
+        handler = Handler(Looper.getMainLooper())
+        handler.postDelayed(runnable, 1)
     }
 
-    val runnable=object : Runnable{
+    val runnable = object : Runnable {
         override fun run() {
-            binding.seekBar.progress=Data.media!!.currentPosition
-            handler.postDelayed(this, 1000)
+            if (Data.media != null) {
+                val current = Data.media!!.currentPosition
+                var duration = milliSecondsToString(current)
+                binding.seekBar.max = current
+                binding.seekBar.progress = current
+                handler.postDelayed(this, 500)
+
+            }
         }
 
     }
@@ -209,8 +227,23 @@ class Home_Fragment : Fragment(), Clic {
     }
 
     override fun OnClick(music: Music) {
-//        binding.artist.text = music.name
+        binding.artist.text = music.name
 
         Toast.makeText(binding.root.context, "${music.name}", Toast.LENGTH_SHORT).show()
     }
+
+    fun milliSecondsToString(time: Int): String {
+        var elapsedTime = ""
+        var minutes = time / 1000 / 60
+        var second = time / 1000 % 60
+
+        elapsedTime = "$minutes : "
+        if (second < 10) {
+            elapsedTime += "0"
+        }
+        elapsedTime += second
+
+        return elapsedTime
+    }
+
 }
